@@ -81,6 +81,8 @@ def fetch_data(request: DateRequest):
             filepath_urm = os.path.join(DOWNLOADS_PATH, filename_urm)
             df_rsm.to_excel(filepath_rsm, index=False, engine="openpyxl")
             df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
+            print(f"Saved file: {filepath_rsm}")
+            print(f"Saved file: {filepath_urm}")
             files_created.append(filename_rsm)
             files_created.append(filename_urm)
     
