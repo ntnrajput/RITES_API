@@ -31,6 +31,7 @@ export default function Home() {
       }
 
       const data = await res.json();
+      console.log("Backend response:", data);
       if (data.success) {
         setStatus(data.message);
         setFiles(data.files_created || []);
