@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import os
 import pandas as pd
@@ -46,6 +47,14 @@ API_ENDPOINTS = {
 
 class DateRequest(BaseModel):
     date: str
+
+
+@app.get("/api/download-file/{filename}")
+def download_file(filename: str):
+    file_path = os.path.join(DOWNLOADS_PATH, filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    return FileResponse(path=file_path, filename=filename, media_type='application/octet-stream')
 
 
 @app.post("/api/fetch-data")
