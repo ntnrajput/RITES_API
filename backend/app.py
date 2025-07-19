@@ -49,8 +49,6 @@ class DateRequest(BaseModel):
     date: str
 
 
-
-
 # --- The main API endpoint ---
 @app.post("/api/fetch-data")
 def fetch_data(request: DateRequest):
@@ -60,45 +58,33 @@ def fetch_data(request: DateRequest):
         raise HTTPException(status_code=401, detail="Authentication failed")
     
     files_created = []
-    combined_output = BytesIO()
-    with pd.ExcelWriter(combined_output, engine='openpyxl') as writer:
-        for api_name, endpoint in API_ENDPOINTS.items():
-            # Fetch data
-            data = fetch_api_data(endpoint, request.date, token)
-            if data:
-                df = pd.DataFrame(data)
-                if api_name == 'fwt':
-                    df_rsm, df_urm = process_data_fwt(df)
-                elif api_name == 'macro':
-                    df_rsm, df_urm = process_data_macro(df)
-                elif api_name == 'tensile':
-                    df_rsm, df_urm = process_data_tensile(df)
-                else:
-                    continue
+    for api_name, endpoint in API_ENDPOINTS.items():
+        # Fetch data
+        data = fetch_api_data(endpoint, request.date, token)
+        if data:
+            df = pd.DataFrame(data)
+            if api_name == 'fwt':
+                df_rsm, df_urm = process_data_fwt(df)
+            elif api_name == 'macro':
+                df_rsm, df_urm = process_data_macro(df)
+            elif api_name == 'tensile':
+                df_rsm, df_urm = process_data_tensile(df)
+            else:
+                continue
                 
-                # filename_rsm = f"RSM_{api_name}_{request.date}.xlsx"
-                # filename_urm = f"URM_{api_name}_{request.date}.xlsx"
-                # filepath_rsm = os.path.join(DOWNLOADS_PATH, filename_rsm)
-                # filepath_urm = os.path.join(DOWNLOADS_PATH, filename_urm)
-                # df_rsm.to_excel(filepath_rsm, index=False, engine="openpyxl")
-                # df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
-                # files_created.append(filename_rsm)
-                # files_created.append(filename_urm)
-                df_rsm.to_excel(writer, index=False, sheet_name=f'RSM_{api_name}')
-                df_urm.to_excel(writer, index=False, sheet_name=f'URM_{api_name}')
-        combined_output.seek(0)
-    #     return {
-    #     "success": True,
-    #     "message": f"Data fetched and files generated for {request.date}",
-    #     "files_created": files_created
-    # }
-        return StreamingResponse(
-        combined_output,
-        media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        headers={
-            "Content-Disposition": f"attachment; filename=Combined_Data_{request.date}.xlsx"
-        }
-    )
+                filename_rsm = f"RSM_{api_name}_{request.date}.xlsx"
+                filename_urm = f"URM_{api_name}_{request.date}.xlsx"
+                filepath_rsm = os.path.join(DOWNLOADS_PATH, filename_rsm)
+                filepath_urm = os.path.join(DOWNLOADS_PATH, filename_urm)
+                df_rsm.to_excel(filepath_rsm, index=False, engine="openpyxl")
+                df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
+                files_created.append(filename_rsm)
+                files_created.append(filename_urm)
+        return {
+        "success": True,
+        "message": f"Data fetched and files generated for {request.date}",
+        "files_created": files_created
+    }
 
 def get_access_token():
     try:
