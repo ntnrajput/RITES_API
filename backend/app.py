@@ -16,7 +16,9 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 DOWNLOADS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
 os.makedirs(DOWNLOADS_PATH, exist_ok=True)
-app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
+# app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
+app.mount("/api/download", StaticFiles(directory="/opt/render/project/src/backend/downloads"), name="downloads")
+
 
 # CORS (allow frontend dev server)
 app.add_middleware(
@@ -28,10 +30,6 @@ app.add_middleware(
 )
 
 # Ensure downloads folder exists
-
-
-# Static files for download
-app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
 
 # --- API Details ---
 LOGIN_URL = "https://bspapp.sail-bhilaisteel.com/setu/api/token/"
@@ -123,11 +121,18 @@ def fetch_api_data(endpoint, date, token):
 # (Optional) List files endpoint
 @app.get("/api/list-files")
 def list_files():
-    files = [
-        f for f in os.listdir(DOWNLOADS_PATH)
-        if os.path.isfile(os.path.join(DOWNLOADS_PATH, f))
-    ]
-    return {"files": files}
+    print(f"Listing files in directory: {DOWNLOADS_PATH}")
+    try:
+        files = [
+            f for f in os.listdir(DOWNLOADS_PATH)
+            if os.path.isfile(os.path.join(DOWNLOADS_PATH, f))
+        ]
+        print(f"Files found: {files}")
+        return {"files": files}
+    except Exception as e:
+        print(f"Error listing files: {e}")
+        raise HTTPException(status_code=500, detail="Could not list files")
+
 
 # Optional: Nice homepage
 from fastapi.responses import HTMLResponse
