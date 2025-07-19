@@ -77,9 +77,8 @@ export default function Home() {
             <ul className="space-y-2">
               {files.map((file, idx) => (
                 <li key={idx}>
-                  <a
-                    href={`https://rites-api.onrender.com/api/download/${file}`}
-
+                 <a
+                    href={`https://rites-api.onrender.com/api/download-file/${file}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     download
