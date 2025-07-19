@@ -14,11 +14,18 @@ export default function Home() {
     setStatus("Fetching data...");
     setFiles([]);
     try {
-      const res = await fetch("http://localhost:5000/api/fetch-data", {
+      // const res = await fetch("http://localhost:5000/api/fetch-data", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ date }),
+      // });
+
+      const res = await fetch("https://your-backend.onrender.com/api/fetch-data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date }),
       });
+
       const data = await res.json();
       if (data.success) {
         setStatus(data.message);
