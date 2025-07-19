@@ -78,6 +78,7 @@ export default function Home() {
                 <li key={idx}>
                   <a
                     href={`https://rites-api.onrender.com/api/download/${file}`}
+
                     target="_blank"
                     rel="noopener noreferrer"
                     download
