@@ -46,6 +46,9 @@ API_ENDPOINTS = {
 class DateRequest(BaseModel):
     date: str
 
+
+
+
 # --- The main API endpoint ---
 @app.post("/api/fetch-data")
 def fetch_data(request: DateRequest):
@@ -90,15 +93,21 @@ def get_access_token():
         print("Login error:", e)
     return None
 
+
 def fetch_api_data(endpoint, date, token):
     url = f"{endpoint}{date}/"
     headers = {"Authorization": f"Bearer {token}"}
-    try:
-        response = requests.get(url, headers=headers)
-        if response.ok:
-            return response.json()
-    except Exception as e:
-        print("API error:", e)
+    response = requests.get(url, headers=headers)
+    if response.ok:
+        try:
+            data = response.json()
+            # Handle case where API response is not a list/dict for DataFrame
+            if isinstance(data, dict) and "results" in data:
+                return data["results"]
+            return data
+        except Exception as e:
+            print(f"JSON decode error for {url}: {e}")
+            return None
     return None
 
 # (Optional) List files endpoint
