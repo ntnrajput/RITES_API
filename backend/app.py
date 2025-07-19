@@ -63,6 +63,7 @@ def fetch_data(request: DateRequest):
     for api_name, endpoint in API_ENDPOINTS.items():
         # Fetch data
         data = fetch_api_data(endpoint, request.date, token)
+        print(f"API: {api_name}, Data fetched: {len(data) if data else 0} records")
         if data:
             df = pd.DataFrame(data)
             if api_name == 'fwt':
@@ -73,7 +74,8 @@ def fetch_data(request: DateRequest):
                 df_rsm, df_urm = process_data_tensile(df)
             else:
                 continue
-                
+            print(f"Processed {api_name} - RSM rows: {len(df_rsm)}, URM rows: {len(df_urm)}")
+
                 filename_rsm = f"RSM_{api_name}_{request.date}.xlsx"
                 filename_urm = f"URM_{api_name}_{request.date}.xlsx"
                 filepath_rsm = os.path.join(DOWNLOADS_PATH, filename_rsm)
