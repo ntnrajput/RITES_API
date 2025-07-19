@@ -20,7 +20,7 @@ export default function Home() {
       //   body: JSON.stringify({ date }),
       // });
 
-      const res = await fetch("https://your-backend.onrender.com/api/fetch-data", {
+      const res = await fetch("https://rites-api.onrender.com/api/fetch-data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date }),
