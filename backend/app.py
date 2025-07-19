@@ -14,7 +14,7 @@ from fastapi.staticfiles import StaticFiles
 
 # --- API Setup ---
 app = FastAPI()
-app.mount("/downloads", StaticFiles(directory="downloads"), name="downloads")
+app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
 # CORS (allow frontend dev server)
 app.add_middleware(
     CORSMiddleware,
