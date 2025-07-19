@@ -82,6 +82,7 @@ def fetch_data(request: DateRequest):
                 df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
                 files_created.append(filename_rsm)
                 files_created.append(filename_urm)
+        print("Files created:", files_created)
         return {
         "success": True,
         "message": f"Data fetched and files generated for {request.date}",
