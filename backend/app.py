@@ -61,7 +61,6 @@ def fetch_data(request: DateRequest):
     
     files_created = []
     for api_name, endpoint in API_ENDPOINTS.items():
-        # Fetch data
         data = fetch_api_data(endpoint, request.date, token)
         print(f"API: {api_name}, Data fetched: {len(data) if data else 0} records")
         if data:
@@ -76,20 +75,22 @@ def fetch_data(request: DateRequest):
                 continue
             print(f"Processed {api_name} - RSM rows: {len(df_rsm)}, URM rows: {len(df_urm)}")
 
-                filename_rsm = f"RSM_{api_name}_{request.date}.xlsx"
-                filename_urm = f"URM_{api_name}_{request.date}.xlsx"
-                filepath_rsm = os.path.join(DOWNLOADS_PATH, filename_rsm)
-                filepath_urm = os.path.join(DOWNLOADS_PATH, filename_urm)
-                df_rsm.to_excel(filepath_rsm, index=False, engine="openpyxl")
-                df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
-                files_created.append(filename_rsm)
-                files_created.append(filename_urm)
-        print("Files created:", files_created)
-        return {
+            filename_rsm = f"RSM_{api_name}_{request.date}.xlsx"
+            filename_urm = f"URM_{api_name}_{request.date}.xlsx"
+            filepath_rsm = os.path.join(DOWNLOADS_PATH, filename_rsm)
+            filepath_urm = os.path.join(DOWNLOADS_PATH, filename_urm)
+            df_rsm.to_excel(filepath_rsm, index=False, engine="openpyxl")
+            df_urm.to_excel(filepath_urm, index=False, engine="openpyxl")
+            files_created.append(filename_rsm)
+            files_created.append(filename_urm)
+    
+    print("Files created:", files_created)
+    return {
         "success": True,
         "message": f"Data fetched and files generated for {request.date}",
         "files_created": files_created
     }
+
 
 def get_access_token():
     try:
