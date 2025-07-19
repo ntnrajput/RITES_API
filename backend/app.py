@@ -14,6 +14,8 @@ from fastapi.staticfiles import StaticFiles
 
 # --- API Setup ---
 app = FastAPI()
+DOWNLOADS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
+os.makedirs(DOWNLOADS_PATH, exist_ok=True)
 app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
 
 # CORS (allow frontend dev server)
@@ -26,8 +28,7 @@ app.add_middleware(
 )
 
 # Ensure downloads folder exists
-DOWNLOADS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
-os.makedirs(DOWNLOADS_PATH, exist_ok=True)
+
 
 # Static files for download
 app.mount("/api/download", StaticFiles(directory=DOWNLOADS_PATH), name="downloads")
