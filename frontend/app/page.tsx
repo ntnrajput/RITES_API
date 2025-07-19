@@ -77,7 +77,6 @@ export default function Home() {
               {files.map((file, idx) => (
                 <li key={idx}>
                   <a
-{/*                     href={`/api/download/${file}`} */}
                     href={`https://rites-api.onrender.com/api/download/${file}`}
                     target="_blank"
                     rel="noopener noreferrer"
