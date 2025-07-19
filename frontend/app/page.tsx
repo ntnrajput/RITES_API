@@ -26,6 +26,10 @@ export default function Home() {
         body: JSON.stringify({ date }),
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to fetch data from server");
+      }
+
       const data = await res.json();
       if (data.success) {
         setStatus(data.message);
@@ -34,6 +38,7 @@ export default function Home() {
         setStatus(data.error || "Failed to fetch data");
       }
     } catch (err: any) {
+      console.error("Error fetching data:", err);
       setStatus("Request failed: " + err.message);
     }
   };
@@ -72,7 +77,8 @@ export default function Home() {
               {files.map((file, idx) => (
                 <li key={idx}>
                   <a
-                    href={`/api/download/${file}`}
+{/*                     href={`/api/download/${file}`} */}
+                    href={`https://rites-api.onrender.com/api/download/${file}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     download
