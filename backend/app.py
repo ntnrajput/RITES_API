@@ -9,10 +9,11 @@ import os
 import pandas as pd
 import requests
 from process import process_data_fwt, process_data_macro, process_data_tensile
+from fastapi.staticfiles import StaticFiles
 
 # --- API Setup ---
 app = FastAPI()
-
+app.mount("/downloads", StaticFiles(directory="downloads"), name="downloads")
 # CORS (allow frontend dev server)
 app.add_middleware(
     CORSMiddleware,
