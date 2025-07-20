@@ -39,9 +39,9 @@ CREDENTIALS = {
 }
 
 API_ENDPOINTS = {
-    # "fwt": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_fwt/",
-    # "macro": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_macro/",
-    # "chem": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_chem/",
+    "fwt": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_fwt/",
+    "macro": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_macro/",
+    "chem": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_chem/",
     "tensile": "https://bspapp.sail-bhilaisteel.com/setu/public_api/shift_tensile/"
 }
 
