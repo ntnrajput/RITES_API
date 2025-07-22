@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import os
 import pandas as pd
 import requests
-from process import process_data_fwt, process_data_macro, process_data_tensile
+from process import process_data_fwt, process_data_macro, process_data_tensile, process_data_chem
 
 # --- API Setup ---
 app = FastAPI()
