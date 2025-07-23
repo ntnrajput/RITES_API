@@ -77,6 +77,7 @@ def fetch_data(request: DateRequest):
             elif api_name == 'tensile':
                 df_rsm, df_urm = process_data_tensile(df)
             elif api_name == 'chem':
+                print(df)
                 df_rsm , df_urm = process_data_chem (df)
                 print(f"Processed chem dataframes - RSM shape: {df_rsm.shape}, URM shape: {df_urm.shape}")
             else:

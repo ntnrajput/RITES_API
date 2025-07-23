@@ -103,7 +103,9 @@ def process_data_chem(df):
 
 # df_chem = pd.read_excel(file_path)
 # df_rsm, df_urm = process_data_chem(df_chem)
+# df_urm.to_excel(file_path_csv)
 
-# print(df_rsm)
-# print(df_urm)
+
+print(df_rsm)
+print(df_urm)
 
