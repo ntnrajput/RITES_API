@@ -106,6 +106,6 @@ def process_data_chem(df):
 # df_urm.to_excel(file_path_csv)
 
 
-print(df_rsm)
-print(df_urm)
+# print(df_rsm)
+# print(df_urm)
 
