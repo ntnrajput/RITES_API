@@ -79,6 +79,8 @@ def fetch_data(request: DateRequest):
             elif api_name == 'chem':
                 print(df)
                 df_rsm , df_urm = process_data_chem (df)
+                print(df_rsm)
+                print(df_urm)
             else:
                 continue
 
