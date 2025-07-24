@@ -43,6 +43,7 @@ def process_data_tensile(df):
 def process_data_chem(df):
 
     df_chem = df.copy()
+    print(df_chem)
     rearranged_group = [
         'C_RESULT', 'MN_RESULT', 'P_RESULT', 'S_RESULT', 'SI_RESULT', 'AL_RESULT', 'CR_RESULT', 'V_RESULT',
         'N_RESULT', 'H_RESULT', 'O_RESULT', 'CU_RESULT', 'NI_RESULT', 'MO_RESULT', 'NB_RESULT',
@@ -70,6 +71,8 @@ def process_data_chem(df):
     ladle_df.insert(3,'Mill',ladle_df['MILL_Ladle'].values)
     ladle_df = ladle_df.drop(columns=columns_to_drop, errors='ignore')
 
+    print(ladle_df)
+
     prod1_df = df_chem[(df_chem['ANALYSIS'] == 'Product') & (df_chem['LOT_NO'] == 1)].copy()
     prod1_df = prod1_df.set_index(key_column)
     prod1_df = prod1_df.add_suffix('_Prod1')
@@ -80,6 +83,8 @@ def process_data_chem(df):
     prod1_df = prod1_df.drop(columns=columns_to_drop,errors ='ignore')
     prod1_df = prod1_df[[prod1_df.columns[-1]] + prod1_df.columns[:-1].tolist()]
 
+    print(prod1_df)
+    
     prod2_df = df_chem[(df_chem['ANALYSIS'] == 'Product') & (df_chem['LOT_NO'] == 2)].copy()
     prod2_df = prod2_df.set_index(key_column)
     prod2_df = prod2_df.add_suffix('_Prod2')
@@ -90,9 +95,12 @@ def process_data_chem(df):
     prod2_df = prod2_df.drop(columns=columns_to_drop,errors ='ignore')
     prod2_df = prod2_df[[prod2_df.columns[-1]] + prod2_df.columns[:-1].tolist()]
 
+    print(prod2_df)
+
     chem_df = ladle_df.join(prod1_df, how='left', rsuffix='_Prod1').join(prod2_df, how='left', rsuffix='_Prod2')
     chem_df = chem_df.reset_index()
     chem_df = chem_df[chem_df.columns[1:]]
+    print(chem_df)
     
 
     df_rsm = chem_df[chem_df['Mill'] == 'RSM'].reset_index(drop=True)
